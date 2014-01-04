@@ -4,8 +4,7 @@
 module.exports = function (server) {
 
     server.get('/', function (req, res) {
-        var model = { name: 'campusmapper' };
-        
+        var model={};
         res.render('index', model);
         
     });

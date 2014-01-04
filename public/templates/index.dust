@@ -1,5 +1,6 @@
 {>"layouts/master" /}
 
 {<body}
-    <h1>{@pre type="content" key="index.greeting"/}</h1>
+     <div id="map" class="col-sm-12"></div>
+     <br class="clear" />
 {/body}
