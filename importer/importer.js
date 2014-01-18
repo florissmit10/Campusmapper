@@ -22,20 +22,30 @@ function importFile (file, collection)
 		if (f.type != "Feature") throw "Not a feature";
 
 		var fp = f.properties;
-		if (fp.name != null) {
+		if (fp.name != null && fp.type != null) {
 			// Keywords
 			var keywords = [fp.name];
 			if (fp.number != null) keywords.push('' + fp.number);
 			if (fp.keywords != null) keywords.push.apply(keywords, fp.keywords.split(','));
 			if (fp.abbr != null) keywords.push(fp.abbr);
 			keywords = keywords.map(function (s) {return s.toLowerCase();});
+			
+			// Content
+			var content;
+			var contentPath = 'importer/content/' + fp.name.toLowerCase() + '.htm';
+			if (fs.existsSync(contentPath)) {
+				content = fs.readFileSync(contentPath, {encoding: 'utf-8'});
+			}
+			else {
+				content = '';
+			}
 
 			// New feature
-			var prop = {name: fp.name, keywords: keywords};
+			var prop = {name: fp.name, keywords: keywords, content: content, type: fp.type};
 			var feature = {type: "Feature", properties: prop, geometry: f.geometry};
 			
 			// Insert
-			collection.insert(feature, errCallback);
+			collection.insert(feature, function(err, db) {console.log(feature);});
 		}
 	}
 }
@@ -53,8 +63,9 @@ MongoClient.connect(dburl, function(err, db)
 	
 	// Empty
 	collection.remove(errCallback);
-	importFile('bag.geojson', collection);
-	importFile('osm.geojson', collection);
+	importFile('importer/bag.geojson', collection);
+	importFile('importer/osm.geojson', collection);
+	importFile('importer/points.geojson', collection);
 	
 	// Close pas als alle inserts gedaan zijn!
 	//db.close();
