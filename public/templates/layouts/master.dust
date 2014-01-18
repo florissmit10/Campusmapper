@@ -23,7 +23,7 @@
 		    	<nav id="cm_navbar">
 		    		<ul class="nav nav-pills">
 					  <li><a href="#">Studie</a></li>
-					  <li><a href="#">Sport</a></li>
+					  <li><a href="#">Activisme</a></li>
 					  <li><a href="#">Wonen</a></li>
 					</ul>
 					<a id="cm_utlogo"><img src="/img/utlogo.gif"></img></a>
