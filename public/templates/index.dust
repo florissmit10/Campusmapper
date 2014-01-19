@@ -3,4 +3,7 @@
 {<body}
      <div id="map" class="col-sm-12"></div>
      <br class="clear" />
+     <script>
+     	var dataurl = '/data/welkom/';
+     </script>
 {/body}

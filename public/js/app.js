@@ -2,16 +2,79 @@
 
 $(document).ready(function() {
 	if($('div#map')!==undefined){
-		var map = L.map('map', {
-			center: [52.2425437869612, 6.852636337280273], 
+			var map = L.map('map', {
+			center: [52.24406788078239, 6.855125427246093], 
 			zoom: 15,
 		});
 
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
-		map.on('click',function(e) {
-			console.log(e.latlng);
+
+		var geojson;
+
+		if(dataurl){
+			$.ajax({
+				url: dataurl,
+			 	dataType: 'json' 
+			 }).done(function(data){
+				geojson=L.geoJson(data,{
+					style: 			getStyle,
+					onEachFeature: 	onEachFeature
+				}).addTo(map);
+			});
+		}
+	}
+
+
+	function onFeatureClick(event) {
+		var link = event.target.feature.properties.link
+		if(link!==undefined) location.href=link;
+	}
+	function onFeatureMouseOver(event){
+		if(event.target!==undefined) 
+			event.target.openPopup();
+		
+		event.target.setStyle({
+			weight: 5,
+			color: '#666',
+			fillOpacity: 0.7
 		});
 	}
-	});
+	function onFeatureMouseOut(event){
+		//map.closePopup();	
+		geojson.resetStyle(event.target);
+	}
+
+
+	function getStyle(feature){
+		return {
+			fillColor: feature.properties.fillColor || '#FFEDA0',
+			fillOpacity: 0.5,
+			weight: 2,
+        	opacity: 1,
+        	color: 'white'
+		}
+	}
+
+	function onEachFeature(feature, layer){
+		var props 	= feature.properties,
+		title 		= props.name || 'Title',
+		content 	= props.content || '';
+
+		layer.on({
+					click: onFeatureClick,
+					mouseover: onFeatureMouseOver,
+					mouseout: onFeatureMouseOut
+				});
+
+		layer.bindPopup("<div class='feature_popup'><h4>" + title + "</h4>" + "<p>" + content + "</p></div>",{
+			closeButton: false,
+			closeOnClick: true,
+			offset: L.point(6, 0)
+		});
+
+		
+	}
+});
+
