@@ -36,12 +36,20 @@ function importFile (file, collection)
 			
 			// Content
 			var content;
-			var contentPath = 'importer/content/' + fp.name.toLowerCase() + '.htm';
+			var contentPath = 'importer/content/' + fp.name.toLowerCase().replace('/', '-') + '.htm';
 			if (fs.existsSync(contentPath)) {
 				content = fs.readFileSync(contentPath, {encoding: 'utf-8'});
 			}
 			else {
-				content = '<h3>' + escapeHtml(fp.name) + '</h3>';
+				var s = '';
+				if (fp.number != null) s += fp.number + '. ';
+				s += fp.name;
+				if (fp.abbr != null) s += ' (' + fp.abbr + ')';
+
+				content = '<h3>' + escapeHtml(s) + '</h3>';
+				
+				// Write content
+				fs.writeFile(contentPath, content, {encoding: 'utf-8'}, errCallback);
 			}
 
 			// New feature
@@ -49,7 +57,8 @@ function importFile (file, collection)
 			var feature = {type: "Feature", properties: prop, geometry: f.geometry};
 			
 			// Insert
-			collection.insert(feature, function(err, db) {console.log(feature);});
+			console.log(feature.properties.name);
+			collection.insert(feature, errCallback);
 		}
 	}
 }
