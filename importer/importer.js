@@ -6,6 +6,10 @@ function errCallback (err, db)
 	if (err) throw err;
 }
 
+function escapeHtml (string) {
+	return string.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+}
+
 function importFile (file, collection)
 {
 	// Read json file
@@ -37,7 +41,7 @@ function importFile (file, collection)
 				content = fs.readFileSync(contentPath, {encoding: 'utf-8'});
 			}
 			else {
-				content = '';
+				content = '<h3>' + escapeHtml(fp.name) + '</h3>';
 			}
 
 			// New feature
