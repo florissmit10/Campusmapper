@@ -32,8 +32,7 @@ $(document).ready(function() {
 		if(link!==undefined) location.href=link;
 	}
 	function onFeatureMouseOver(event){
-		if(event.target!==undefined) 
-			event.target.openPopup();
+		if(event.target!==undefined) event.target.openPopup();
 		
 		event.target.setStyle({
 			weight: 5,
@@ -42,7 +41,8 @@ $(document).ready(function() {
 		});
 	}
 	function onFeatureMouseOut(event){
-		//map.closePopup();	
+		if(event.target!==undefined) event.target.closePopup();	
+		
 		geojson.resetStyle(event.target);
 	}
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 					mouseout: onFeatureMouseOut
 				});
 
-		layer.bindPopup("<div class='feature_popup'><h4>" + title + "</h4>" + "<p>" + content + "</p></div>",{
+		layer.bindPopup("<h4>" + title + "</h4>" + "<p>" + content + "</p>	",{
 			closeButton: false,
 			closeOnClick: true,
 			offset: L.point(6, 0)
