@@ -3,8 +3,8 @@
 $(document).ready(function() {
 	if($('div#map')!==undefined){
 			var map = L.map('map', {
-			center: [52.24406788078239, 6.855125427246093], 
-			zoom: 15,
+			center: mapCenter, 
+			zoom: mapZoom,
 		});
 
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
