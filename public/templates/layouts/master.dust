@@ -23,9 +23,9 @@
 		    	<nav id="cm_navbar">
 		    		<ul class="nav nav-pills">
 		    		  <li><input type="text" /></li>
-					  <li><a href="#">Studie</a></li>
-					  <li><a href="#">Activisme</a></li>
-					  <li><a href="#">Wonen</a></li>
+					  <li><a href="/studie">Studie</a></li>
+					  <li><a href="/activisme">Activisme</a></li>
+					  <li><a href="/wonen">Wonen</a></li>
 					</ul>
 					<a id="cm_utlogo"><img src="/img/utlogo.gif"></img></a>
 		    	</nav>

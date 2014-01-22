@@ -23,6 +23,8 @@ $(document).ready(function() {
 					onEachFeature: 	onEachFeature
 				}).addTo(map);
 			});
+		} else{
+			console.log('no data found');
 		}
 	}
 

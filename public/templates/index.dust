@@ -3,7 +3,10 @@
 {<body}
      <div id="map" class="col-sm-12"></div>
      <br class="clear" />
+     {?dataurl}
      <script>
-     	var dataurl = '/get?type=welkom';
+     	var dataurl = '{.dataurl}';
      </script>
+     {/dataurl}
+     
 {/body}
