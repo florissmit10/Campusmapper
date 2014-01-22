@@ -11,6 +11,20 @@ $(document).ready(function() {
 		    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		}).addTo(map);
 
+		var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+		info.update = function (props) {
+			this._div.innerHTML = (props&&props.content ? props.content: '');
+		};
+
+		info.addTo(map);
+
 		var geojson;
 
 		if(dataurl){
@@ -31,20 +45,23 @@ $(document).ready(function() {
 
 	function onFeatureClick(event) {
 		var link = event.target.feature.properties.link
-		if(link!==undefined) location.href=link;
+		if(link!==undefined) {
+			var mode = link[0]==='h'?'_blank':'_self';
+			window.open(link,mode);
+		}
 	}
 	function onFeatureMouseOver(event){
-		if(event.target!==undefined) event.target.openPopup();
-		
-		event.target.setStyle({
+		if(event.target!==undefined) info.update(event.target.feature.properties);
+
+		if(event.target.feature.geometry.type=="Polygon")
+			event.target.setStyle({
 			weight: 5,
 			color: '#666',
 			fillOpacity: 0.7
 		});
 	}
 	function onFeatureMouseOut(event){
-		if(event.target!==undefined) event.target.closePopup();	
-		
+		info.update();
 		geojson.resetStyle(event.target);
 	}
 
@@ -68,15 +85,7 @@ $(document).ready(function() {
 					click: onFeatureClick,
 					mouseover: onFeatureMouseOver,
 					mouseout: onFeatureMouseOut
-				});
-
-		layer.bindPopup(content,{
-			closeButton: false,
-			closeOnClick: true,
-			offset: L.point(6, 0)
-		});
-
-		
+				});		
 	}
 });
 
