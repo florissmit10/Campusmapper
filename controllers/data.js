@@ -1,12 +1,26 @@
 'use strict';
+
+var dburl = "mongodb://localhost:27017/campusmapper";
+
 var fs = require('fs');
 
 module.exports = function (server) {
 
-    server.get('/data/welkom/', function (req, res) {
-        var data = fs.readFileSync(__dirname+'/../data/welkom.geojson');
-        res.send(JSON.parse(data));
-        
+    server.get('/get', function (req, res) {
+    
+    	var type = require('url').parse(req.url, true).query.type;
+    	
+    	var MongoClient = require('mongodb').MongoClient;
+    	MongoClient.connect(dburl, function (err, db) {
+    		if (err) throw err;
+    		db.collection("features").find({'properties.type': type}).toArray(function (err, results) {
+	    		db.close();
+    			if (err) throw err;
+    			res.send({'type': 'FeatureCollection', 'features': results});
+    		});
+    	});
     });
+    
+    
 
 };

@@ -2,7 +2,7 @@
     "name": "campusmapper",
     "version": "0.0.1",
     "description": " Interactive web page for showing new students around the campus",
-    "author": "Floris Smit",
+    "author": "Floris Smit and Paul Breeuwsma",
     "main": "index.js",
     "scripts": {
         "test": "grunt test",

@@ -68,7 +68,7 @@ $(document).ready(function() {
 					mouseout: onFeatureMouseOut
 				});
 
-		layer.bindPopup("<h4>" + title + "</h4>" + "<p>" + content + "</p>	",{
+		layer.bindPopup(content,{
 			closeButton: false,
 			closeOnClick: true,
 			offset: L.point(6, 0)

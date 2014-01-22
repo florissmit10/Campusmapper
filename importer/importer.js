@@ -1,3 +1,4 @@
+'use strict';
 
 var dburl = "mongodb://localhost:27017/campusmapper";
 
@@ -17,7 +18,7 @@ function importFile (file, collection)
 	
 	// Check
 	if (obj.type != "FeatureCollection") throw "Not a feature collection";
-	if (obj.crs.properties.name != "urn:ogc:def:crs:OGC:1.3:CRS84") throw "Unexpected crs name";
+	//if (obj.crs.properties.name != "urn:ogc:def:crs:OGC:1.3:CRS84") throw "Unexpected crs name";
 	
 	// Iterate over features
 	for (var i=0; i<obj.features.length; i++)
@@ -46,14 +47,17 @@ function importFile (file, collection)
 				s += fp.name;
 				if (fp.abbr != null) s += ' (' + fp.abbr + ')';
 
-				content = '<h3>' + escapeHtml(s) + '</h3>';
+				content = '<h4>' + escapeHtml(s) + '</h4>';
 				
 				// Write content
 				fs.writeFile(contentPath, content, {encoding: 'utf-8'}, errCallback);
 			}
+			
+			// Fill color
+			var fillColor = fp.fillColor ? fp.fillColor : '#ffeda0';
 
 			// New feature
-			var prop = {name: fp.name, keywords: keywords, content: content, type: fp.type};
+			var prop = {name: fp.name, keywords: keywords, content: content, type: fp.type, fillColor: fillColor};
 			var feature = {type: "Feature", properties: prop, geometry: f.geometry};
 			
 			// Insert
@@ -76,9 +80,12 @@ MongoClient.connect(dburl, function(err, db)
 	
 	// Empty
 	collection.remove(errCallback);
+	
+	// Insert
 	importFile('importer/bag.geojson', collection);
 	importFile('importer/osm.geojson', collection);
 	importFile('importer/points.geojson', collection);
+	importFile('importer/welkom.geojson', collection);
 	
 	// Close pas als alle inserts gedaan zijn!
 	//db.close();
