@@ -1,6 +1,7 @@
 'use strict';
-
-var dburl = "mongodb://localhost:27017/campusmapper";
+var fs = require('fs'),
+	MongoClient = require('mongodb').MongoClient,
+	dburl = "mongodb://localhost:27017/campusmapper";
 
 function errCallback (err, db)
 {
@@ -37,7 +38,7 @@ function importFile (file, collection)
 			
 			// Content
 			var content;
-			var contentPath = 'importer/content/' + fp.name.toLowerCase().replace('/', '-') + '.htm';
+			var contentPath = __dirname+'/content/' + fp.name.toLowerCase().replace('/', '-') + '.htm';
 			if (fs.existsSync(contentPath)) {
 				content = fs.readFileSync(contentPath, {encoding: 'utf-8'});
 			}
@@ -67,26 +68,24 @@ function importFile (file, collection)
 	}
 }
 
-var fs = require('fs');
 
-// Connect
-var MongoClient = require('mongodb').MongoClient;
 
-MongoClient.connect(dburl, function(err, db)
-{
-	if (err) throw err;
+	MongoClient.connect(dburl, function(err, db)
+	{
+		if (err) throw err;
 
-	var collection = db.collection("features");
-	
-	// Empty
-	collection.remove(errCallback);
-	
-	// Insert
-	importFile('importer/bag.geojson', collection);
-	importFile('importer/osm.geojson', collection);
-	importFile('importer/points.geojson', collection);
-	importFile('importer/welkom.geojson', collection);
-	
-	// Close pas als alle inserts gedaan zijn!
-	//db.close();
-});
+		var collection = db.collection("features");
+		
+		// Empty
+		collection.remove(errCallback);
+		
+		// Insert
+		importFile(__dirname+'/bag.geojson', collection);
+		importFile(__dirname+'/osm.geojson', collection);
+		importFile(__dirname+'/points.geojson', collection);
+		importFile(__dirname+'/welkom.geojson', collection);
+		
+		// Close pas als alle inserts gedaan zijn!
+		//db.close();
+	});
+
