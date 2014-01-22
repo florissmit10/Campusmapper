@@ -57,8 +57,12 @@ function importFile (file, collection)
 			// Fill color
 			var fillColor = fp.fillColor ? fp.fillColor : '#ffeda0';
 
-			// New feature
-			var prop = {name: fp.name, keywords: keywords, content: content, type: fp.type, fillColor: fillColor};
+			// Inherit all original properties.
+			var prop = fp;
+			prop.keywords= keywords;
+			prop.content= content;
+			prop.fillColor= fp.fillColor ? fp.fillColor : '#ffeda0';
+
 			var feature = {type: "Feature", properties: prop, geometry: f.geometry};
 			
 			// Insert
