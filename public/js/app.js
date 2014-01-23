@@ -85,7 +85,10 @@ $(document).ready(function() {
 					click: onFeatureClick,
 					mouseover: onFeatureMouseOver,
 					mouseout: onFeatureMouseOut
-				});		
+				});
+		if(props.icon!==undefined){
+			layer.setIcon(L.icon(props.icon));
+		}
 	}
 });
 

@@ -1,7 +1,8 @@
 'use strict';
 var fs = require('fs'),
 	MongoClient = require('mongodb').MongoClient,
-	dburl = "mongodb://localhost:27017/campusmapper";
+	dburl = "mongodb://localhost:27017/campusmapper",
+	_= require('underscore');
 
 function errCallback (err, db)
 {
@@ -17,6 +18,8 @@ function importFile (file, collection)
 	// Read json file
 	var obj = JSON.parse(fs.readFileSync(file));
 	
+	var iconsettings = JSON.parse(fs.readFileSync(__dirname+'/iconsettings.json'));
+
 	// Check
 	if (obj.type != "FeatureCollection") throw "Not a feature collection";
 	//if (obj.crs.properties.name != "urn:ogc:def:crs:OGC:1.3:CRS84") throw "Unexpected crs name";
@@ -38,7 +41,8 @@ function importFile (file, collection)
 			
 			// Content
 			var content;
-			var contentPath = __dirname+'/content/' + fp.name.toLowerCase().replace('/', '-') + '.htm';
+			var validFilename =  fp.name.toLowerCase().replace('/', '-');
+			var contentPath = __dirname+'/content/' + validFilename + '.htm';
 			if (fs.existsSync(contentPath)) {
 				content = fs.readFileSync(contentPath, {encoding: 'utf-8'});
 			}
@@ -55,13 +59,22 @@ function importFile (file, collection)
 			}
 			
 			// Fill color
-			var fillColor = fp.fillColor ? fp.fillColor : '#ffeda0';
+			var fillColor = fp.fillColor ? fp.fillColor : getFillColor;
 
 			// Inherit all original properties.
 			var prop = fp;
 			prop.keywords= keywords;
 			prop.content= content;
-			prop.fillColor= fp.fillColor ? fp.fillColor : '#ffeda0';
+			prop.fillColor= fp.fillColor ? fp.fillColor : getFillColor(fp);
+
+			//Logo
+			if(fs.existsSync(__dirname+'/../public/img/'+validFilename+'.png')){
+				var settings = _.find(iconsettings, function(i){return i.name == validFilename;});
+				if(settings!==undefined) prop.icon= settings.iconSettings;
+				prop.icon.iconUrl = '/img/'+validFilename+'.png';
+				
+			}
+
 
 			var feature = {type: "Feature", properties: prop, geometry: f.geometry};
 			
@@ -93,3 +106,16 @@ function importFile (file, collection)
 		//db.close();
 	});
 
+
+function getFillColor(props){
+	switch(props.type){
+		case 'wonen':
+			return '#0033ff';
+		case 'studie':
+			return '#82cb00';
+		case 'activisme':
+			return '#FD8D3C';
+		default:
+			return '#ffeda0';
+	}
+}

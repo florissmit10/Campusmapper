@@ -1,0 +1,38 @@
+ [
+{"name":"abacus",
+"iconSettings":{
+	"iconSize":     [28, 36],
+	"iconAnchor":   [0, 36]
+	}
+},
+{"name":"inter-actief",
+"iconSettings":{
+	"iconSize":     [28, 23],
+	"iconAnchor":   [0, 23]
+	}
+},
+{"name":"proto",
+"iconSettings":{
+	"iconSize":     [33, 20],
+	"iconAnchor":   [25, 0]
+	}
+},
+{"name":"scintilla",
+"iconSettings":{
+	"iconSize":     [30, 24],
+	"iconAnchor":   [0, 24]
+	}
+},
+{"name":"sirius",
+"iconSettings":{
+	"iconSize":     [28, 31],
+	"iconAnchor":   [28, 31]
+	}
+},
+{"name":"stress",
+"iconSettings":{
+	"iconSize":     [30, 35],
+	"iconAnchor":   [22, 35]
+	}
+}
+]
