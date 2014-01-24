@@ -1,7 +1,7 @@
 'use strict';
 var fs = require('fs'),
 	MongoClient = require('mongodb').MongoClient,
-	dburl =  (process.env.MONGOLAB_URI ||  process.env.MONGOHQ_URL ||"mongodb://localhost:27017/")+"campusmapper",
+	dburl =  process.env.MONGOLAB_URI ||  process.env.MONGOHQ_URL ||"mongodb://localhost:27017/campusmapper",
 	_= require('underscore');
 
 function errCallback (err, db)
@@ -103,7 +103,8 @@ function importFile (file, collection)
 		importFile(__dirname+'/welkom.geojson', collection);
 		
 		// Close pas als alle inserts gedaan zijn!
-		//db.close();
+		setTimeout(function(){
+			db.close();},2000);
 	});
 
 
