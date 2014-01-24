@@ -2,13 +2,13 @@
 {"name":"abacus",
 "iconSettings":{
 	"iconSize":     [28, 36],
-	"iconAnchor":   [0, 36]
+	"iconAnchor":   [0, 18]
 	}
 },
 {"name":"inter-actief",
 "iconSettings":{
 	"iconSize":     [28, 23],
-	"iconAnchor":   [0, 23]
+	"iconAnchor":   [14, 12]
 	}
 },
 {"name":"proto",
@@ -20,19 +20,19 @@
 {"name":"scintilla",
 "iconSettings":{
 	"iconSize":     [30, 24],
-	"iconAnchor":   [0, 24]
+	"iconAnchor":   [15, 12]
 	}
 },
 {"name":"sirius",
 "iconSettings":{
 	"iconSize":     [28, 31],
-	"iconAnchor":   [28, 31]
+	"iconAnchor":   [14, 15]
 	}
 },
 {"name":"stress",
 "iconSettings":{
 	"iconSize":     [30, 35],
-	"iconAnchor":   [22, 35]
+	"iconAnchor":   [15, 17]
 	}
 }
 ]

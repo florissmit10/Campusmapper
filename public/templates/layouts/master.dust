@@ -27,7 +27,7 @@
 					  <li><a href="/activisme">Activisme</a></li>
 					  <li><a href="/wonen">Wonen</a></li>
 					</ul>
-					<a id="cm_utlogo"><img src="/img/utlogo.gif"></img></a>
+					<a href="/" id="cm_utlogo"><img src="/img/utlogo.gif"></img></a>
 		    	</nav>
 			    <div class="jumbotron">
 			        {+body /} 
