@@ -1,8 +1,11 @@
 'use strict';
 
+var map;
+var dataLayer;
+
 $(document).ready(function() {
 	if($('div#map')!==undefined){
-			var map = L.map('map', {
+			map = L.map('map', {
 			center: mapCenter, 
 			zoom: mapZoom,
 		});
@@ -31,17 +34,29 @@ $(document).ready(function() {
 			$.ajax({
 				url: dataurl,
 			 	dataType: 'json' 
-			 }).done(function(data){
-				geojson=L.geoJson(data,{
-					style: 			getStyle,
-					onEachFeature: 	onEachFeature
-				}).addTo(map);
-			});
+			 }).done(onDataReceived);
 		} else{
 			console.log('no data found');
 		}
+		
+		// search
+		$('#searchform').submit(onSearch);
 	}
-
+	
+	function onSearch () {
+		$.ajax({
+			url: '/search?q=' + encodeURI($('#searchtext').val()),
+		 	dataType: 'json' 
+		}).done(onDataReceived);
+		
+		return false;
+	}
+	
+	function onDataReceived (data) {
+		if (dataLayer) map.removeLayer(dataLayer);
+		dataLayer = L.geoJson(data, {style: getStyle, onEachFeature: onEachFeature});
+		map.addLayer(dataLayer);
+	}
 
 	function onFeatureClick(event) {
 		var link = event.target.feature.properties.link

@@ -22,7 +22,7 @@
 		    <div class="container">
 		    	<nav id="cm_navbar">
 		    		<ul class="nav nav-pills">
-		    		  <li><input type="text" /></li>
+		    		  <li><form id="searchform"><input type="text" id="searchtext" /></form></li>
 					  <li><a href="/studie">Studie</a></li>
 					  <li><a href="/activisme">Activisme</a></li>
 					  <li><a href="/wonen">Wonen</a></li>
