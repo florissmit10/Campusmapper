@@ -77,7 +77,7 @@ $(document).ready(function() {
 	}
 	function onFeatureMouseOut(event){
 		info.update();
-		geojson.resetStyle(event.target);
+		dataLayer.resetStyle(event.target);
 	}
 
 
