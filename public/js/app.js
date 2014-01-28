@@ -45,7 +45,7 @@ $(document).ready(function() {
 	
 	function onSearch () {
 		$.ajax({
-			url: '/search?q=' + encodeURI($('#searchtext').val()),
+			url: '/search?q=' + encodeURI($('#searchtext').val().toLowerCase().trim()),
 		 	dataType: 'json' 
 		}).done(onDataReceived);
 		
