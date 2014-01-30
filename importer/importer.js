@@ -104,7 +104,7 @@ function importFile (file, collection)
 		
 		// Close pas als alle inserts gedaan zijn!
 		setTimeout(function(){
-			db.close();},2000);
+			db.close();},10000);
 	});
 
 
